@@ -103,7 +103,7 @@ var messageControl = {
             input: {},
         };
         if ( req.body ) {
-            console.log("*********************access Key1:" + req.body.accessKey);
+            console.log("*********************req body:" + req.body);
             console.log("*********************access Key:" + process.env.conversation_access_key);
             if ( req.body.accessKey!== process.env.conversation_access_key) {
                 return res.status( 403 ).json( { error: CONVERSATION_ACCESS_ERROR } );
