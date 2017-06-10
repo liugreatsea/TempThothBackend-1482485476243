@@ -147,7 +147,11 @@ var messageControl = {
                 var query_string = payload.input.text;
 
                 discovery.query({environment_id:environment_id, collection_id:collection_id,query:query_string}, function(error, data) {
-                    if (data.results && data.results.length>0) {
+                    if ( err ) {
+                        console.log("****Discovery service invoke error");
+                        return res.status( err.code || 500 ).json( err );
+                    }
+                    if (data && data.results && data.results.length>0) {
                         response.output.text = data.results[0].text;
                     }
                     return res.json(response);
