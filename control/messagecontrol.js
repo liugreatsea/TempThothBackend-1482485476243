@@ -115,6 +115,9 @@ var messageControl = {
                 payload.context = req.body.context;
             }
         }
+
+        console.log("****** discovery_trained : " + req.body.input.discovery_trained);
+
         // Send the input to the conversation service
         conversation.message( payload, function(err, data) {
             if ( err ) {
