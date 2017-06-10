@@ -104,9 +104,9 @@ var messageControl = {
         };
         var accessKey = process.env.conversation_access_key||localConfig_access_key;
         if ( req.body ) {
-            if ( req.body.accessKey!== accessKey) {
-                return res.status( 403 ).json( { error: CONVERSATION_ACCESS_ERROR } );
-            }
+            // if ( req.body.accessKey!== accessKey) {
+            //     return res.status( 403 ).json( { error: CONVERSATION_ACCESS_ERROR } );
+            // }
             if ( req.body.input ) {
                 payload.input = req.body.input;
             }
