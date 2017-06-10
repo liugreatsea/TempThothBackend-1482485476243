@@ -52,7 +52,7 @@ var conversation = watson.conversation( {
  * @param  {Object} response The response from the Conversation service
  * @return {Object}          The response with the updated message
  */
-function updateMessage(payload, response) {
+function updateMessage(response) {
     var responseText = null;
     var id = null;
 
@@ -123,20 +123,27 @@ var messageControl = {
             if ( err ) {
                 return res.status( err.code || 500 ).json( err );
             }
-            var response = updateMessage( payload, data );
+            var response = updateMessage( data );
 
 
             if ( response.output.discovery_search ) {
 
                 var DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
                 var discovery = new DiscoveryV1({
-                    username: localConfig.discovery.username,
-                    password: localConfig.discovery.password,
+                    username: process.env.discovery_username || localConfig.discovery.username,
+                    password: process.env.discovery_password || localConfig.discovery.password,
                     version_date: '2016-12-01'
                 });
 
-                var environment_id = localConfig.discovery_collection_untrained.environment_id;
-                var collection_id = localConfig.discovery_collection_untrained.collection_id;
+                var environment_id = '';
+                var collection_id = '';
+                if (payload.input.discovery_trained) {
+                    environment_id = process.env.discovery_trained_environment_id || localConfig.discovery_collection_trained.environment_id;
+                    collection_id = process.env.discovery_trained_collection_id || localConfig.discovery_collection_trained.collection_id;
+                } else {
+                    environment_id = process.env.discovery_untrained_environment_id || localConfig.discovery_collection_untrained.environment_id;
+                    collection_id = process.env.discovery_untrained_collection_id || localConfig.discovery_collection_untrained.collection_id;
+                }
                 var query_string = payload.input.text;
 
                 discovery.query({environment_id:environment_id, collection_id:collection_id,query:query_string}, function(error, data) {
