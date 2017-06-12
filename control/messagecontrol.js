@@ -152,7 +152,7 @@ var messageControl = {
                         return res.status( err.code || 500 ).json( err );
                     }
                     if (data && data.results && data.results.length>0) {
-                        response.output.text = new Array(data.results[0].text);
+                        response.output.text = new Array(data.results[0].answer);
                     }
                     return res.json(response);
 
